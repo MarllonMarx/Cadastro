@@ -1,11 +1,10 @@
 package senai.cadastro
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
 import senai.cadastro.databinding.ActivityMainBinding
 
@@ -23,41 +22,44 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-
+        val listuser = ArrayList<User>()
         val db =  DBHelper(this)
 
-        val listuser = db.listauserSelectAll()
+        val listuser1 = db.listauserSelectAll()
 
-        adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,listuser)
-        binding.listView.adapter = adapter
+        adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,listuser1)
 
-        binding.listView.setOnItemClickListener { _, _, position, _ ->
-        binding.editUsername.setText(listuser.get(position).username)
-        binding.editEmail.setText(listuser.get(position).email)
-        binding.editTelefone.setText(listuser.get(position).telefone)
-        binding.editPassword.setText(listuser.get(position).password)
 
-         this.post = position
-        }
 
         binding.buttonCadastrar.setOnClickListener {
-            val username = binding.editUsername.text.toString()
-            val email = binding.editEmail.text.toString()
-            val telefone = binding.editTelefone.text.toString()
-            val password = binding.editPassword.text.toString()
+
+            val username = binding.editUsername.text.toString().trim()
+            val email = binding.editEmail.text.toString().trim()
+            val telefone = binding.editTelefone.text.toString().trim()
+            val password = binding.editPassword.text.toString().trim()
 
             val result = db.Insertuser(username, email, telefone, password)
 
-            if (result > 0){
-                Snackbar.make(findViewById(android.R.id.content), "Cadastro Efetuado com sucesso", Snackbar.LENGTH_LONG).show()
+            if (!username.isEmpty() && !email.isEmpty() && !telefone.isEmpty() && !password.isEmpty()){
+
+
+                Snackbar.make(findViewById(android.R.id.content), "Usuário $username Cadastrado com Sucesso", Snackbar.LENGTH_LONG).show()
                 listuser.add(User(result.toInt(),username, email, telefone, password))
                 adapter.notifyDataSetChanged()
 
             }else{
-                Snackbar.make(findViewById(android.R.id.content), "ERRO! Tente Novamente", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(findViewById(android.R.id.content), "ERRO! Campos Vazios", Snackbar.LENGTH_LONG).show()
             }
 
         }
+
+        binding.buttonListar.setOnClickListener {
+
+            var i = Intent(this,MainActivity2::class.java)
+            i.putExtra("lista",listuser)
+            startActivity(i)
+        }
+        /*
 
         binding.buttonAtualizar.setOnClickListener {
 
@@ -111,5 +113,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        */
     }
+
+
 }
+

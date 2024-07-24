@@ -8,16 +8,31 @@
     android:orientation="vertical"
     tools:context="MainActivity">
 
+
     <TextView
-        android:id="@+id/text"
-        android:visibility="invisible"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/aclonica"
+        android:gravity="center"
+        android:padding="30dp"
+        android:text="Cadastro de Usuários"
+        android:layout_marginTop="70dp"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/agbalumo"
+        android:gravity="center"
+        android:text="Cadastre-se Agora:" />
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_username"
@@ -47,10 +62,9 @@
                     android:id="@+id/edit_telefone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Telefone"
-                    android:inputType="phone"
                     android:gravity="center"
-                    />
+                    android:hint="Telefone"
+                    android:inputType="phone" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -61,36 +75,25 @@
                         android:id="@+id/edit_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Passowrd"
+                        android:hint="Password"
                         android:gravity="center"/>
 
                     <Button
-                        android:id="@+id/button_cadastrar"
+                        android:id="@+id/button_Cadastrar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cadastrar"
-                        android:layout_marginTop="40dp"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"/>
 
                     <Button
-                        android:id="@+id/button_atualizar"
+                        android:id="@+id/button_Listar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Atualizar"
-                        android:layout_marginTop="20dp"
-                        android:layout_gravity="center"/>
-                    <Button
-                        android:id="@+id/button_excluir"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Excluir"
-                        android:layout_marginTop="20dp"
-                        android:layout_gravity="center"/>
+                        android:text="Listar Usuários"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"/>
 
-                    <ListView
-                        android:id="@+id/list_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
 
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -101,6 +104,5 @@
 
 
 
-
-
 </LinearLayout>
+
