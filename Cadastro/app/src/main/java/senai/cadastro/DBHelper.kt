@@ -66,37 +66,37 @@ class DBHelper(context: Context)
 
     fun listSelectById(id: Int): Cursor{
         val db = this.readableDatabase
-        val c = db.rawQuery("SELECT * FROM cadastro WHERE id=?", arrayOf(id.toString()))
+        val c = db.rawQuery("SELECT * FROM cadastro WHERE id= ?", arrayOf(id.toString()))
 
      db.close()
         return c
     }
 
-    fun listuserSelectById(id: Int): User{
+    fun listuserSelectById(id: Int): List<User>{
+
+        val users = mutableListOf<User>()
         val db = this.readableDatabase
-        val c = db.rawQuery("SELECT * FROM cadastro WHERE id=?", arrayOf(id.toString()))
-        var user = User()
+        val c = db.rawQuery("SELECT * FROM cadastro WHERE id= ?", arrayOf(id.toString()))
 
-        if (c.count == 1){
+        c.use {
+            while (it.moveToNext()){
+                var idIndex = it.getColumnIndex("id")
+                var usernameIdex = it.getColumnIndex("username")
+                var emailIndex = it.getColumnIndex("email")
+                var telefoneIndex = it.getColumnIndex("telefone")
+                var passwordIndex = it.getColumnIndex("password")
 
-            c.moveToFirst()
-
-            val idIndex = c.getColumnIndex("id")
-            val usernameIndex = c.getColumnIndex("username")
-            val emailIndex = c.getColumnIndex("email")
-            val telefoneIndex = c.getColumnIndex("telefone")
-            val paswordIndex = c.getColumnIndex("password")
-
-            val id = c.getInt(idIndex)
-            val username = c.getString(usernameIndex)
-            val email = c.getString(emailIndex)
-            val telefone = c.getString(telefoneIndex)
-            val password = c.getString(paswordIndex)
-
-            user = User(id, username, email, telefone, password)
+                users.add(User(
+                    it.getInt(idIndex),
+                    it.getString(usernameIdex),
+                    it.getString(emailIndex),
+                    it.getString(telefoneIndex),
+                    it.getString(passwordIndex)
+                ))
+            }
         }
-        db.close()
-        return  user
+
+        return  users
     }
 
     fun Insertuser(username: String, email: String, telefone: String, password: String):Long{
@@ -115,17 +115,17 @@ class DBHelper(context: Context)
         return result
     }
 
-    fun UpdateUser(id: Int, username: String, email: String, telefone: String, password: String):Int{
+    fun UpdateUser(user: User):Int{
 
         val db = this.writableDatabase
 
         val contentValues = ContentValues()
-        contentValues.put("username",username)
-        contentValues.put("email",email)
-        contentValues.put("telefone",telefone)
-        contentValues.put("password",password)
+        contentValues.put("username",user.username)
+        contentValues.put("email",user.email)
+        contentValues.put("telefone",user.telefone)
+        contentValues.put("password",user.password)
 
-        val result = db.update("cadastro",contentValues,"id=?", arrayOf(id.toString()))
+        val result = db.update("cadastro",contentValues,"id=?", arrayOf(user.id.toString()))
 
         db.close()
         return result

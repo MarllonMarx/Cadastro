@@ -11,7 +11,7 @@ import senai.cadastro.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private  lateinit var adapter: ArrayAdapter<User>
+
 
     private  var post = -1
 
@@ -22,12 +22,9 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        val listuser = ArrayList<User>()
+
         val db =  DBHelper(this)
 
-        val listuser1 = db.listauserSelectAll()
-
-        adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,listuser1)
 
 
 
@@ -38,14 +35,14 @@ class MainActivity : AppCompatActivity() {
             val telefone = binding.editTelefone.text.toString().trim()
             val password = binding.editPassword.text.toString().trim()
 
-            val result = db.Insertuser(username, email, telefone, password)
+
 
             if (!username.isEmpty() && !email.isEmpty() && !telefone.isEmpty() && !password.isEmpty()){
 
+              db.Insertuser(username, email, telefone, password)
 
                 Snackbar.make(findViewById(android.R.id.content), "Usuário $username Cadastrado com Sucesso", Snackbar.LENGTH_LONG).show()
-                listuser.add(User(result.toInt(),username, email, telefone, password))
-                adapter.notifyDataSetChanged()
+
 
             }else{
                 Snackbar.make(findViewById(android.R.id.content), "ERRO! Campos Vazios", Snackbar.LENGTH_LONG).show()
@@ -56,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         binding.buttonListar.setOnClickListener {
 
             var i = Intent(this,MainActivity2::class.java)
-            i.putExtra("lista",listuser)
             startActivity(i)
         }
         /*
